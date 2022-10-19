@@ -41,10 +41,12 @@ namespace HelloWorld {
                     NetworkManager.Singleton.IsServer == true && 
                     NetworkManager.Singleton.IsClient == false
                 ) {
+                    Debug.Log("Server only");
                     foreach (ulong uid in NetworkManager.Singleton.ConnectedClientsIds) {
                         NetworkManager.Singleton.SpawnManager.GetPlayerNetworkObject(uid).GetComponent<HelloWorldPlayer>().Move();
                     }
                 } else {
+                    Debug.Log("Host or client");
                     NetworkObject playerObject = NetworkManager.Singleton.SpawnManager.GetLocalPlayerObject();
                     HelloWorldPlayer player = playerObject.GetComponent<HelloWorldPlayer>();
                     player.Move();
