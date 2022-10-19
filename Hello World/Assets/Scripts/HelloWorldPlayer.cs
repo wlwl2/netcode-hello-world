@@ -27,7 +27,9 @@ namespace HelloWorld {
                 Vector3 randomPosition = GetRandomPositionOnPlane();
                 transform.position = randomPosition;
                 Position.Value = randomPosition;
-            } else {
+            }
+
+            if (NetworkManager.Singleton.IsClient) {
                 // If we are a client, we call a ServerRpc. A ServerRpc can be
                 // invoked by a client to be executed on the server.
                 SubmitPositionRequestServerRpc();
@@ -37,7 +39,9 @@ namespace HelloWorld {
         /// <summary>
         ///  This ServerRpc simply sets the position NetworkVariable on the
         ///  server's instance of this player by just picking a random point on
-        ///  the plane.
+        ///  the plane. If we are a client, we call a ServerRpc.
+        ///  This is later transformed on both the server and client in the
+        ///  Update() loop.
         /// </summary>
         [ServerRpc]
         private void SubmitPositionRequestServerRpc (ServerRpcParams rpcParams = default) {
